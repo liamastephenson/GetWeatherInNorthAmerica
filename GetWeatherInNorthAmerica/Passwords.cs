@@ -2,6 +2,6 @@
 {
     public class Passwords
     {
-        string apiKey = "";
+       public string apiKey = "test";
     }
 }
