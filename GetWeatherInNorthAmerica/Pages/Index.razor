@@ -1,9 +1,204 @@
 ﻿@page "/"
+@using GetWeatherInNorthAmerica.Data;
 
-<PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: url('Images/blursky.png') center/cover fixed; /* Adjust the URL to your image */
+         
+    }
 
-Welcome to your new app.
+    .hover-effect:hover {
+        background-color: #abcbff; /* Adjust the background color on hover */
+        transition: background-color 0.3s ease; /* Add a smooth transition effect */
+    }
+    .container {
+        background-color: rgba(255, 255, 255, 0.8); /* Adjust the opacity of the container */
+        border-radius: 10px; /* Optional: Add rounded corners to the container */
+        padding: 20px;
+        margin-top: 50px; /* Adjust the margin from the top */
+    }
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    .bodyCard {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 50vh;
+        margin: 0;
+        /*background-color: rgba(255, 255, 255, 0.8);*/
+    }
+
+    .weather-card {
+        background-color: #FAF9F6;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        max-width: 300px; /* Adjust based on your design preferences */
+        margin: auto;
+    }
+
+    .location h2 {
+        margin: 0;
+        color: #333;
+        font-size: 1.5em;
+    }
+
+    .temperature h1 {
+        margin: 0;
+        font-size: 2.5em;
+        color: #e44d26; /* Using Orange to standout from the current blue theme */
+    }
+
+    .description p {
+        margin: 0;
+        color: #555;
+    }
+
+    .icon img {
+        width: 100px; /* Adjust size based on your icon */
+        height: auto;
+        margin-top: 10px;
+    }
+
+    .mainweather p {
+        margin: 0;
+        color: #777;
+    }
+
+    /* Add</style>
+
+
+<PageTitle>Weather</PageTitle>
+
+
+
+
+<div class="container text-center mt-5">
+    <h1 class="display-4">Weather Now</h1>
+    <p>Please enter a city name in the search bar below to get the current weather:</p>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="input-group mb-3">
+                <input name="search" type="text" class="form-control form-control-lg" @bind="searchText" placeholder="Enter city name...">
+                <div style="padding-left:10px" class="input-group-append">
+                    <button class="btn btn-primary btn-lg" @onclick="SearchCityName">Search</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (cities == null)
+    {
+        <p><em>Please enter a city name and click "Search" to get started!</em></p>
+    }
+    else if (cities.Count == 0)
+    {
+        <p><em>No matching cities found. Please try another city name.</em></p>
+    }
+    else if (searching == true)
+    {
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Country Code</th>
+                    <th>State/Province</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var city in cities)
+                {
+                    <tr style="cursor: pointer;" @onclick="(e) => WeatherForCity(city)" class="hover-effect">
+                        <td>@city.name</td>
+                        <td>@city.country</td>
+                        <td>@city.state</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else if (selected == true)
+    {
+        <div class="bodyCard">
+            <div class="weather-card">
+                <div class="location">
+                    <h2>@weather.name, @weather.state</h2>
+                </div>
+                <div class="temperature">
+                    <h1>@tempRound&deg;C</h1>
+                </div>
+                <div class="description">
+                    <p>@weather.description</p>
+                </div>
+                <div class="icon">
+                    @if (weather.main == "Rain")
+                    {
+                        <img src="Images/raining.png" alt="Weather Icon">
+                    }
+                    else if (weather.main == "Clouds")
+                    {
+                        <img src="Images/cloudy.png" alt="Weather Icon">
+                    }
+                    else if (weather.main == "Snow")
+                    {
+                        <img src="Images/snow.png" alt="Weather Icon">
+                    }
+                    else if (weather.main == "Sun")
+                    {
+                        <img src="Images/sun.png" alt="Weather Icon">
+                    }
+                    else
+                    {
+                        <img src="Images/miscweather.png" alt="Weather Icon">
+                    }
+                </div>
+                <div class="mainweather">
+                    <p>@weather.main</p>
+                </div>
+            </div>
+        </div>
+    }
+    <a href="https://www.linkedin.com/in/liamastephenson/">Check out my linkind @@Liamastephenson</a>
+   <br /> <a href="https://github.com/liamastephenson?tab=repositories">Check out more of my projects!</a>
+</div>
+
+
+@code {
+
+    private IList<Cities> cities;
+    private WeatherReport weather;
+    private string searchText;
+    private bool searching = false;
+    private bool selected = false;
+    private string tempRound;
+    protected override async Task OnInitializedAsync()
+    {
+       
+        
+    }
+    private void WeatherForCity(Cities city)
+    {
+        searching = false;
+        selected = true;
+        weather = WeatherInfoHelper.GetWeatherCity(city);
+        tempRound = ""+RoundToWholeNumber(double.Parse(weather.temp));
+    }
+
+    static int RoundToWholeNumber(double number)
+    {
+        return (int)Math.Round(number, MidpointRounding.AwayFromZero);
+    }
+
+
+    private void SearchCityName()
+    {
+        searching = true;
+        selected = false;
+        cities = CityInfoHelper.GetCityInfo(searchText);
+        
+    }
+}

@@ -11,4 +11,20 @@
     <PackageReference Include="RestSharp" Version="110.2.0" />
   </ItemGroup>
 
+	<ItemGroup>
+    <None Include="wwwroot\Images\miscweather.png" />
+    <None Include="wwwroot\Images\cloudy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Images\raining.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Images\snow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Images\sun.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
