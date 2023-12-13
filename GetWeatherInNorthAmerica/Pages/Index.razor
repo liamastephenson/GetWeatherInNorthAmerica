@@ -101,6 +101,10 @@
     }
     else if (searching == true)
     {
+        @if (cities == null)
+        {
+            <p><em>No cities found under that name. Please try another City!</em></p>
+        }
         <table class="table table-bordered table-striped mt-3">
             <thead>
                 <tr>
